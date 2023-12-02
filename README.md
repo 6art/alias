@@ -7,7 +7,7 @@
 1. 使用以下命令下载并执行脚本:
 
 ```bash
-curl -sS https://raw.githubusercontent.com/clashingone/alias/main/setup_aliases.sh | bash
+source <(curl -sS https://raw.githubusercontent.com/clashingone/alias/main/setup_aliases.sh)
 ```
 
 2. 替换上述命令中的`[your_github_username]`和`[repo_name]`。  
