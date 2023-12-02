@@ -20,7 +20,7 @@ add_alias() {
 # 调用格式:add_alias "别名" "命令"
 
 # 示例:添加别名 lion
-add_alias "lion" "curl -sS -O curl -sS -O https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh && chmod +x kejilion.sh && ./kejilion.sh"  
+add_alias "lion" "curl -sS -O https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh && chmod +x kejilion.sh && ./kejilion.sh"  
 
 # 重复上述模式以添加更多别名 
 # 比如: add_alias "tiger" "your_command"
