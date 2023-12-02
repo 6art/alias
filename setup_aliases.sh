@@ -1,85 +1,90 @@
 #!/bin/bash
 
-# 显示 logo
+# 显示 Logo
 echo -e "\e[32m"
 cat << "EOF"
-   ,---,        ,--,                                     
-  '  .' \     ,--.'|     ,--,                            
- /  ;    '.   |  | :   ,--.'|                            
-:  :       \  :  : '   |  |,                  .--.--.    
-:  |   /\   \ |  ' |   `--'_      ,--.--.    /  /    '   
-|  :  ' ;.   :'  | |   ,' ,'|    /       \  |  :  /`./   
-|  |  ;/  \   \  | :   '  | |   .--.  .-. | |  :  ;_     
-'  :  | \  \ ,'  : |__ |  | :    \__\/: . .  \  \    `.  
-|  |  '  '--' |  | '.'|'  : |__  ," .--.; |   `----.   \ 
-|  :  :       ;  :    ;|  | '.'|/  /  ,.  |  /  /`--'  / 
-|  | ,'       |  ,   / ;  :    ;  :   .'   \'--'.     /  
-`--''          ---`-'  |  ,   /|  ,     .-./  `--'---'   
-                        ---`-'  `--`---'                  
+Your ASCII Art Logo Here
 EOF
 echo -e "\e[0m"
 
-# 添加一个新的别名函数
-# 这个函数接受两个参数:别名和对应的命令
+# add_alias 函数：添加新别名
+# 你可以修改这个函数来调整别名的存储位置或逻辑
 add_alias() {
-    local alias_name=$1
-    local command=$2
+    local alias_name="$1"
+    local alias_command="$2"
+    local alias_file="$HOME/.bash_aliases"
 
-    # 检查是否已存在
-    if ! grep -q "alias $alias_name=" /etc/bash.bashrc; then
-        # 使用 echo 命令和重定向 >> 追加到文件末尾
-        echo "alias $alias_name='$command'" >> /etc/bash.bashrc
-        echo "别名 '$alias_name' 已添加。你现在可以使用这个别名来执行你的命令了！"
+    if grep -q "$alias_name" "$alias_file"; then
+        echo "Alias $alias_name already exists."
     else
-        echo "别名 '$alias_name' 已存在，无需重复添加。你可以直接使用这个别名来执行你的命令！"
+        echo "alias $alias_name='$alias_command'" >> "$alias_file"
+        echo "Alias $alias_name added successfully."
     fi
 }
 
-# 显示所有别名及其对应的命令
+# show_aliases 函数：显示所有别名
 show_aliases() {
-    echo -e "序号\t别名\t命令"
-    grep '^alias ' /etc/bash.bashrc | cat -n | while read -r number alias_line; do
-        # 使用cut和sed提取别名和命令
-        alias_name=$(echo "$alias_line" | cut -d'=' -f1 | sed 's/alias //')
-        command=$(echo "$alias_line" | cut -d'=' -f2- | tr -d "'")
-
-        # 格式化输出
-        printf "%-5s %-15s %s\n" "$number" "$alias_name" "$command"
-    done
-    echo "按任意键返回主菜单..."
-    read
+    local alias_file="$HOME/.bash_aliases"
+    echo "Defined aliases:"
+    cat "$alias_file"
 }
 
-# 显示菜单并获取用户的选择
+# remove_alias 函数：删除别名
+remove_alias() {
+    local alias_name="$1"
+    local alias_file="$HOME/.bash_aliases"
+
+    # 使用 sed 命令删除别名
+    sed -i "/$alias_name/d" "$alias_file"
+    echo "Alias $alias_name removed."
+}
+
+# edit_alias 函数：编辑别名
+edit_alias() {
+    local alias_name="$1"
+    local new_command="$2"
+    local alias_file="$HOME/.bash_aliases"
+
+    # 首先删除旧的别名，然后添加新的
+    remove_alias "$alias_name"
+    add_alias "$alias_name" "$new_command"
+}
+
+# 菜单系统
 while true; do
-    echo "------------------------"
-    echo "请选择一个操作："
-    echo "1. 添加所有收藏脚本的别名"
-    echo "2. 查看所有收藏脚本"
-    echo "0. 退出脚本"
-    echo "------------------------"
-    read -p "请输入你的选择（1、2 或 0）：" choice
+    echo "1. Add Alias"
+    echo "2. Show Aliases"
+    echo "3. Remove Alias"
+    echo "4. Edit Alias"
+    echo "5. Exit"
+    read -p "Enter your choice [1-5]: " choice
 
-    # 根据用户的选择执行相应的操作
-    case "$choice" in
+    case $choice in
         1)
-            # 使用 add_alias 函数添加你的别名
-            # 你可以根据需要添加更多别名
-            # 调用格式:add_alias "别名" "命令"
-            # 示例:添加别名 lion
-            add_alias "lion" "curl -sS -O https://raw.githubusercontent.com/kejilion/sh/main/kejilion.sh && chmod +x kejilion.sh && ./kejilion.sh"
-
-            # 重复上述模式以添加更多别名
-            # 比如: add_alias "tiger" "your_command"
+            read -p "Enter alias name: " alias_name
+            read -p "Enter command: " alias_command
+            add_alias "$alias_name" "$alias_command"
             ;;
         2)
             show_aliases
             ;;
-        0)
+        3)
+            read -p "Enter alias name to remove: " alias_name
+            remove_alias "$alias_name"
+            ;;
+        4)
+            read -p "Enter alias name to edit: " alias_name
+            read -p "Enter new command: " new_command
+            edit_alias "$alias_name" "$new_command"
+            ;;
+        5)
             break
             ;;
         *)
-            echo "无效的选择。"
+            echo "Invalid choice, please try again."
             ;;
     esac
 done
+
+# 退出消息
+echo "Script exited. Have a nice day!"
