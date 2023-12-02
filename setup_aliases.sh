@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# 显示 logo
+echo -e "\e[32m"
+cat << "EOF"
+  ____  _            _    _             _     _       
+ / ___|| |_ __ _  __| |  / \   _ __ ___| |__ (_)_ __  
+| |  _| __/ _` |/ _` | / _ \ | '__/ __| '_ \| | '_ \ 
+| |_| | || (_| | (_| |/ ___ \| | | (__| | | | | |_) |
+ \____|\__\__,_|\__,_/_/   \_\_|  \___|_| |_|_| .__/ 
+                                               |_|    
+EOF
+echo -e "\e[0m"
+
 # 添加一个新的别名函数
 # 这个函数接受两个参数:别名和对应的命令
 add_alias() {
@@ -17,18 +29,19 @@ add_alias() {
 
 # 显示所有别名及其对应的命令
 show_aliases() {
-    echo -e "序号\t别名\t命令"
-    grep -oP '^alias \K.*' /etc/bash.bashrc | cat -n
-    echo "按任意键返回主菜单..."
-    read
+    echo "序号 别名 命令"
+    grep '^alias ' /etc/bash.bashrc | cat -n
 }
 
 # 显示菜单并获取用户的选择
 while true; do
+    echo "------------------------"
     echo "请选择一个操作："
     echo "1. 添加所有收藏脚本的别名"
     echo "2. 查看所有收藏脚本"
-    read -p "请输入你的选择（1 或 2）：" choice
+    echo "0. 退出脚本"
+    echo "------------------------"
+    read -p "请输入你的选择（1、2 或 0）：" choice
 
     # 根据用户的选择执行相应的操作
     case "$choice" in
@@ -47,6 +60,9 @@ while true; do
             ;;
         2)
             show_aliases
+            ;;
+        0)
+            break
             ;;
         *)
             echo "无效的选择。"
