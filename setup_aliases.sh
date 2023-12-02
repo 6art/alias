@@ -71,12 +71,6 @@ while true; do
 
             # 重复上述模式以添加更多别名
             # 比如: add_alias "tiger" "your_command"
-
-            # 重新加载以立即应用
-            if ! grep -q "source /etc/bash.bashrc" /etc/bash.bashrc; then
-                echo "" >> /etc/bash.bashrc
-                echo "source /etc/bash.bashrc" >> /etc/bash.bashrc
-            fi
             ;;
         2)
             show_aliases
