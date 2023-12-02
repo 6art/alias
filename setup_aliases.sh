@@ -37,11 +37,7 @@ add_alias() {
 # 显示所有别名及其对应的命令
 show_aliases() {
     echo -e "序号\t别名\t命令"
-    grep '^alias ' /etc/bash.bashrc | cat -n | while read -r number alias command; do
-        alias_name=$(echo "$alias" | sed 's/alias \(.*\)=.*/\1/')
-        command_text=$(echo "$command" | sed 's/alias .*='\''\(.*\)'\''/\1/')
-        printf "%-5s %-15s %s\n" "$number" "$alias_name" "$command_text"
-    done
+    grep '^alias ' /etc/bash.bashrc | cat -n | awk -F"'" '{alias_name = $1; gsub(/alias /, "", alias_name); gsub(/=/, "", alias_name); printf "%-5s %-10s %s\n", $1, alias_name, $2}'
     echo "按任意键返回主菜单..."
     read
 }
