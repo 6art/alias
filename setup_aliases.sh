@@ -15,7 +15,7 @@ cat << "EOF"
 |  :  :       ;  :    ;|  | '.'|/  /  ,.  |  /  /`--'  / 
 |  | ,'       |  ,   / ;  :    ;  :   .'   \'--'.     /  
 `--''          ---`-'  |  ,   /|  ,     .-./  `--'---'   
-                        ---`-'  `--`---'                 
+                        ---`-'  `--`---'                  
 EOF
 echo -e "\e[0m"
 
@@ -36,8 +36,10 @@ add_alias() {
 
 # 显示所有别名及其对应的命令
 show_aliases() {
-    echo "序号 别名 命令"
-    grep '^alias ' /etc/bash.bashrc | cat -n
+    echo -e "序号\t别名\t命令"
+    grep '^alias ' /etc/bash.bashrc | cat -n | awk '{printf "%-5s %-20s %s\n", $1, $2, substr($0, index($0,$3))}'
+    echo "按任意键返回主菜单..."
+    read
 }
 
 # 显示菜单并获取用户的选择
