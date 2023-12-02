@@ -37,7 +37,7 @@ add_alias() {
 # 显示所有别名及其对应的命令
 show_aliases() {
     echo -e "序号\t别名\t命令"
-    grep '^alias ' /etc/bash.bashrc | cat -n | awk '{printf "%-5s %-15s %s\n", $1, $2, substr($0, index($0,$3))}'
+    grep '^alias ' /etc/bash.bashrc | cat -n | awk '{printf "%-10s %-15s %s\n", $1, $2, substr($0, index($0,$3))}'
     echo "按任意键返回主菜单..."
     read
 }
