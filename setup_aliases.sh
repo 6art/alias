@@ -39,10 +39,12 @@ add_alias() {
 # 显示所有别名及其对应的命令
 show_aliases() {
     echo -e "序号\t别名\t命令"
-    grep '^alias ' /etc/bash.bashrc | cat -n | while read line; do
-        number=$(echo "$line" | awk '{print $1}')
-        alias_name=$(echo "$line" | awk -F"'" '{print $2}' | cut -d'=' -f1)
-        command=$(echo "$line" | awk -F"'" '{print $2}' | cut -d'=' -f2)
+    grep '^alias ' /etc/bash.bashrc | cat -n | while read -r number alias_line; do
+        # 使用cut和sed提取别名和命令
+        alias_name=$(echo "$alias_line" | cut -d'=' -f1 | sed 's/alias //')
+        command=$(echo "$alias_line" | cut -d'=' -f2- | tr -d "'")
+
+        # 格式化输出
         printf "%-5s %-15s %s\n" "$number" "$alias_name" "$command"
     done
     echo "按任意键返回主菜单..."
