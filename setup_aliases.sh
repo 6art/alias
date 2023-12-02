@@ -31,6 +31,9 @@ add_alias "lion" "curl -sS -O https://raw.githubusercontent.com/kejilion/sh/main
 # 重新加载 .bashrc 以应用更改
 # 注意：这只会影响当前的shell会话
 # 新的shell会话（例如新开的终端）会自动获取更新
-source ~/.bashrc
+#...脚本原有内容
+source ~root/.bashrc
+
+exec bash
 
 exec bash
