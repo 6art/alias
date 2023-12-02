@@ -15,9 +15,9 @@ add_alias() {
     fi
 }
 
-# 显示所有别名
+# 显示所有别名及其对应的命令
 show_aliases() {
-    grep -oP '^alias \K[^=]+' /etc/bash.bashrc
+    grep -oP '^alias \K.*' /etc/bash.bashrc
 }
 
 # 显示菜单并获取用户的选择
