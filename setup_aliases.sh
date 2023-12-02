@@ -25,4 +25,4 @@ add_alias "lion" "curl -sS -O https://raw.githubusercontent.com/kejilion/sh/main
 # 比如: add_alias "tiger" "your_command"
 
 # 重新加载以立即应用
-source /etc/bash.bashrc
+echo "source /etc/bash.bashrc" >> /etc/bash.bashrc
