@@ -17,7 +17,8 @@ add_alias() {
 
 # 显示所有别名及其对应的命令
 show_aliases() {
-    grep -oP '^alias \K.*' /etc/bash.bashrc
+    echo "序号 别名 命令"
+    grep -oP '^alias \K.*' /etc/bash.bashrc | cat -n
 }
 
 # 显示菜单并获取用户的选择
