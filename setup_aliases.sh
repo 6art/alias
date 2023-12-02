@@ -73,7 +73,8 @@ while true; do
             # 比如: add_alias "tiger" "your_command"
 
             # 重新加载以立即应用
-            source /etc/bash.bashrc
+            echo "" >> /etc/bash.bashrc
+            echo "source /etc/bash.bashrc" >> /etc/bash.bashrc
             ;;
         2)
             show_aliases
