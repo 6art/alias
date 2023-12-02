@@ -41,9 +41,9 @@ show_aliases() {
     echo -e "序号\t别名\t命令"
     grep '^alias ' /etc/bash.bashrc | cat -n | while read line; do
         number=$(echo "$line" | awk '{print $1}')
-        alias_name=$(echo "$line" | cut -d' ' -f2 | sed "s/alias //g" | sed "s/=.*//g")
-        command=$(echo "$line" | cut -d"'" -f2)
-        printf "%-5s %-10s %s\n" "$number" "$alias_name" "$command"
+        alias_name=$(echo "$line" | awk -F"'" '{print $2}' | cut -d'=' -f1)
+        command=$(echo "$line" | awk -F"'" '{print $2}' | cut -d'=' -f2)
+        printf "%-5s %-15s %s\n" "$number" "$alias_name" "$command"
     done
     echo "按任意键返回主菜单..."
     read
