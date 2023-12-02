@@ -29,7 +29,6 @@ add_alias() {
     if ! grep -q "alias $alias_name=" /etc/bash.bashrc; then
         # 使用 echo 命令和重定向 >> 追加到文件末尾
         echo "alias $alias_name='$command'" >> /etc/bash.bashrc
-        echo "source /etc/bash.bashrc" >> /etc/bash.bashrc
         echo "别名 '$alias_name' 已添加。你现在可以使用这个别名来执行你的命令了！"
     else
         echo "别名 '$alias_name' 已存在，无需重复添加。你可以直接使用这个别名来执行你的命令！"
@@ -74,7 +73,7 @@ while true; do
             # 比如: add_alias "tiger" "your_command"
 
             # 重新加载以立即应用
-            echo "source /etc/bash.bashrc" >> /etc/bash.bashrc
+            source /etc/bash.bashrc
             ;;
         2)
             show_aliases
